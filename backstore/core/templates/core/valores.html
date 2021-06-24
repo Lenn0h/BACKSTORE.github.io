@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% load static %}
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <title>BACKSTORE - Los mejores precios!</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'core/'%}css/valor.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+        <!--USO DEL SERVIICO WEB MINDICADOR.CL-->
+        <script>
+            $.getJSON('https://mindicador.cl/api', function(data) {
+                var dailyIndicators = data;
+            $("<p/>", {
+            html: 'VALOR ACTUAL DEL DOLAR: $' + dailyIndicators.dolar.valor
+            }).appendTo(".valor");
+            $("<p/>", {
+            html: 'VALOR ACTUAL DEL EURO $' + dailyIndicators.euro.valor
+            }).appendTo(".valor");
+            
+            $("<p/>", {
+            html: 'VALOR ACTUAL DEL BITCOIN $' + dailyIndicators.bitcoin.valor
+            }).appendTo(".valor");
+            });
+        
+        </script>
+    </head>
+    <body style="background-color: blueviolet;">
+        <div class="container">
+            <div class="header">
+                <h1><a href="{% url 'home' %}">BACKSTORE</a></h1>
+                <h6>Valores monetarios al día!</h6>
+            </div>
+            <div class="menu">
+                <span class="menu"><a href="{% url 'listado_prod' %}">LISTADO </a></span>
+                <span class="menu"><a href="{% url 'galeria_prod' %}">GALERIA </a></span>
+                <span class="menu"><a href="{% url 'login' %}">INICIAR SESIÓN</a></span>
+                {% if perms.core.add_producto %}
+                <span class="menu"><a href="{% url 'nuevo_producto' %}">AGREGAR PRODUCTOS</a></span>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <span class="menu"><a href="#">USUARIO: {{ user.username }}</a></span>
+                <span class="menu"><a href="{% url 'logout' %}">CERRAR SESIÓN</a></span>
+                {% endif %}
+              </div>
+            <div class="imagenes">
+                <img src="{% static 'core/'%}img/stonks.jpg" class="img-fluid" alt="...">
+            </div>
+            <h4>VALORES ACTUALES</h4>
+            <div class="valor">
+            </div>
+            
+        </div>
+    </body>
+</html>
