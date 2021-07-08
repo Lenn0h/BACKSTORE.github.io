@@ -2,6 +2,8 @@ from .models import Producto
 from django.shortcuts import render, redirect
 from .forms import ProductoForm
 from django.contrib.auth.decorators import login_required, permission_required
+from rest_framework import viewsets
+from .serializers import ProductoSerializer
 
 # Create your views here.
 
@@ -53,3 +55,7 @@ def eliminar_producto(request, id):
     producto.delete()
 
     return redirect(to="listado_prod")
+
+class ProductoViewSet(viewsets.ModelViewSet):
+        queryset = Producto.objects.all()
+        serializer_class = ProductoSerializer
